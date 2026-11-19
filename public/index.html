@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Prueba diferentes prendas y estilos con VestiIA, tu probador virtual con cámara en vivo o carga de fotografía.">
+  <title>VestiIA | Probador virtual con IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="VestiIA inicio">
+      <span class="brand-icon">♧</span>
+      <span><b>VestiIA</b><small>Viste tu mejor versión</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+    <nav id="nav">
+      <a href="#inicio" class="active">Inicio</a>
+      <a href="#probador">Probador virtual</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#como-funciona">Cómo funciona</a>
+    </nav>
+    <a class="nav-cta" href="#probador">Probar ahora <span>↗</span></a>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="sparkle">✦</span> MODA + INTELIGENCIA ARTIFICIAL</span>
+        <h1>Encuentra tu estilo.<br><em>Prueba sin límites.</em></h1>
+        <p>Descubre cómo te queda la ropa antes de elegirla. Usa tu cámara en vivo o sube una fotografía y explora nuevos looks al instante.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#probador">Comenzar a probar <span>→</span></a>
+          <a class="text-link" href="#como-funciona">Conoce cómo funciona</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>01</b><span>Cámara o foto</span></div>
+          <div><b>02</b><span>Elige tu look</span></div>
+          <div><b>03</b><span>Visualiza el resultado</span></div>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="decor decor-one"></div><div class="decor decor-two"></div>
+        <div class="hero-note"><span>✦</span><div><b>Tu estilo, tus reglas</b><small>Explora nuevas combinaciones</small></div></div>
+        <div class="hero-photo">
+          <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=900&q=85" alt="Modelo con conjunto de moda">
+        </div>
+        <div class="floating-tag">✧ Tu próximo look favorito</div>
+      </div>
+    </section>
+
+    <section class="section try-section" id="probador">
+      <div class="section-heading">
+        <span class="eyebrow">TU ESPACIO DE MODA</span>
+        <h2>Tu probador <em>virtual</em></h2>
+        <p>Tómate una foto con el sensor guía o sube una imagen clara de cuerpo completo.</p>
+      </div>
+
+      <div class="tryon-layout">
+        <!-- PASO 1: Modo Híbrido (Cámara Sensor + Subir Foto) -->
+        <div class="panel upload-panel">
+          <div class="panel-title">
+            <span class="step">1</span>
+            <div>
+              <h3>Tu fotografía</h3>
+              <p>Usa tu cámara en vivo o sube una foto</p>
+            </div>
+          </div>
+
+          <!-- Selector de modo -->
+          <div class="source-tabs" id="sourceTabs">
+            <button type="button" class="source-tab active" data-mode="camera" id="tabCamera">📷 Usar cámara</button>
+            <button type="button" class="source-tab" data-mode="upload" id="tabUpload">↑ Subir foto</button>
+          </div>
+
+          <!-- MODO A: Cámara en vivo -->
+          <div id="cameraModeWrap">
+            <div class="camera-start-box" id="cameraStartBox">
+              <div class="upload-symbol">📷</div>
+              <b>Activar cámara del probador</b>
+              <span>Ubícate frente a la cámara de cuerpo completo</span>
+              <button type="button" class="button primary" id="startCameraBtn">Encender cámara</button>
+              <button type="button" class="fallback-link-btn" id="switchToUploadLink">¿Sin cámara? Subir foto desde archivo</button>
+            </div>
+
+            <div class="camera-stage hidden" id="cameraStage">
+              <video id="cameraVideo" autoplay playsinline muted></video>
+              
+              <div class="body-sensor-overlay" id="sensorOverlay">
+                <svg viewBox="0 0 200 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="42" r="24" stroke="currentColor" stroke-width="2.5" stroke-dasharray="6 5"/>
+                  <path d="M55 110 C55 85, 145 85, 145 110 L158 215 L136 218 L128 145 L125 335 L103 335 L100 225 L97 335 L75 335 L72 145 L64 218 L42 215 Z" stroke="currentColor" stroke-width="2.5" stroke-dasharray="6 5" stroke-linejoin="round"/>
+                </svg>
+                <span class="sensor-tip" id="sensorTip">Alinea tu cuerpo dentro de la silueta</span>
+              </div>
+
+              <div class="countdown-badge hidden" id="countdownBadge">3</div>
+
+              <div class="camera-controls">
+                <button type="button" class="cam-icon-btn" id="switchCameraBtn" title="Cambiar cámara">🔄</button>
+                <button type="button" class="capture-shutter" id="captureBtn" title="Tomar foto ahora"></button>
+                <button type="button" class="cam-timer-btn" id="timerCaptureBtn" title="Temporizador 3 segundos">⏱ 3s</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODO B: Subir archivo -->
+          <div id="uploadModeWrap" class="hidden">
+            <label class="upload-zone" for="personInput" id="uploadZone">
+              <span class="upload-symbol">↑</span>
+              <b>Sube tu fotografía</b>
+              <span>Arrastra una imagen aquí o selecciónala</span>
+              <small>JPG, PNG o WEBP · Máximo 8 MB</small>
+              <input type="file" id="personInput" accept="image/png,image/jpeg,image/webp">
+            </label>
+          </div>
+
+          <!-- Vista previa compartida (cámara o archivo) -->
+          <div class="photo-preview hidden" id="photoPreviewWrap">
+            <img id="photoPreview" alt="Vista previa de tu fotografía">
+            <button class="retake-photo-btn" id="retakePhotoBtn" type="button">↻ Cambiar fotografía</button>
+          </div>
+
+          <canvas id="captureCanvas" class="hidden"></canvas>
+
+          <div class="privacy-note">♧ <span>Tu fotografía se utiliza únicamente para generar la prueba virtual.</span></div>
+        </div>
+
+        <!-- PASO 2: Resultado IA -->
+        <div class="panel result-panel">
+          <div class="panel-title"><span class="step">2</span><div><h3>Vista del resultado</h3><p>Así se mostrará tu prueba virtual</p></div></div>
+          <div class="result-stage" id="resultStage">
+            <div class="result-placeholder" id="resultPlaceholder">
+              <div class="hanger">♧</div>
+              <b>Tu nuevo look aparecerá aquí</b>
+              <span>Toma o sube tu foto y elige una prenda para comenzar.</span>
+            </div>
+            <img id="resultImage" class="result-image hidden" alt="Resultado de la prueba virtual">
+          </div>
+          <div class="result-actions">
+            <button class="button primary" id="tryButton" disabled>✦ Probar con IA</button>
+            <button class="button secondary" id="downloadButton" disabled>Descargar resultado ↓</button>
+          </div>
+          <p class="status-message" id="statusMessage" role="status">Captura o sube tu fotografía y selecciona una prenda.</p>
+        </div>
+
+        <!-- PASO 3: Catálogo y prenda propia -->
+        <aside class="panel selection-panel">
+          <div class="panel-title"><span class="step">3</span><div><h3>Elige tu prenda</h3><p>Selecciona una opción</p></div></div>
+          <div class="category-tabs" id="categoryTabs">
+            <button class="category active" data-category="Todos">Todos</button>
+            <button class="category" data-category="Vestidos">Vestidos</button>
+            <button class="category" data-category="Tops">Tops</button>
+            <button class="category" data-category="Abrigos">Abrigos</button>
+            <button class="category" data-category="Pantalones">Pantalones</button>
+          </div>
+          <div class="garment-grid" id="garmentGrid"></div>
+          <div class="custom-garment-area">
+            <div class="custom-garment-heading">
+              <span class="custom-upload-icon" aria-hidden="true">＋</span>
+              <div class="custom-upload-copy">
+                <b>¿Quieres probar una prenda tuya?</b>
+                <small>Sube una foto de tu ropa y úsala en el probador virtual.</small>
+              </div>
+            </div>
+            <label class="custom-garment-upload" for="garmentInput" id="garmentUploadCard">
+              <span class="custom-upload-button">＋ Subir prenda</span>
+              <span class="custom-upload-hint">JPG, PNG o WEBP · Máximo 8 MB</span>
+              <input type="file" id="garmentInput" accept="image/png,image/jpeg,image/webp">
+            </label>
+            <div class="custom-garment-preview hidden" id="customGarmentPreview">
+              <img id="customGarmentImage" alt="Vista previa de tu prenda">
+              <div class="custom-garment-details">
+                <b id="customGarmentName">Mi prenda</b>
+                <small>Tu prenda está seleccionada para la prueba</small>
+              </div>
+              <button type="button" class="change-custom-garment" id="changeCustomGarment">Cambiar</button>
+              <button type="button" class="remove-custom-garment" id="removeCustomGarment" aria-label="Quitar prenda">×</button>
+            </div>
+          </div>
+          <div class="selected-info" id="selectedInfo">Ninguna prenda seleccionada</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section catalog-section" id="catalogo">
+      <div class="section-heading split-heading">
+        <div><span class="eyebrow">INSPÍRATE</span><h2>Explora tu próximo <em>look</em></h2></div>
+        <p>Prendas para expresar tu personalidad en cada ocasión.</p>
+      </div>
+      <div class="style-cards">
+        <article class="style-card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=85" alt="Estilo casual"><div><span>01 / TODOS LOS DÍAS</span><h3>Casual</h3><a href="#probador">Explorar estilo ↗</a></div></article>
+        <article class="style-card"><img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=700&q=85" alt="Estilo elegante"><div><span>02 / OCASIONES ESPECIALES</span><h3>Elegante</h3><a href="#probador">Explorar estilo ↗</a></div></article>
+        <article class="style-card"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=85" alt="Estilo urbano"><div><span>03 / ACTITUD URBANA</span><h3>Urbano</h3><a href="#probador">Explorar estilo ↗</a></div></article>
+      </div>
+    </section>
+
+    <section class="how-section" id="como-funciona">
+      <div class="section-heading">
+        <span class="eyebrow">SENCILLO E INTUITIVO</span>
+        <h2>¿Cómo funciona <em>VestiIA?</em></h2>
+      </div>
+      <div class="steps">
+        <article><span>01</span><div class="step-icon">📷</div><h3>Cámara o fotografía</h3><p>Usa el sensor en vivo con temporizador o sube una imagen desde tu dispositivo.</p></article>
+        <article><span>02</span><div class="step-icon">♧</div><h3>Selecciona una prenda</h3><p>Explora el catálogo y elige la ropa que quieres probar.</p></article>
+        <article><span>03</span><div class="step-icon">✦</div><h3>Genera tu look</h3><p>La IA procesa las imágenes y crea una visualización de la prenda.</p></article>
+        <article><span>04</span><div class="step-icon">♡</div><h3>Guarda tu resultado</h3><p>Descarga la imagen para conservar tu combinación favorita.</p></article>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div><span class="eyebrow">TU ESTILO COMIENZA AQUÍ</span><h2>La moda cambia.<br><em>Tu creatividad no tiene límites.</em></h2></div>
+      <a class="button light-button" href="#probador">Probar mi primer look →</a>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="#inicio"><span class="brand-icon">♧</span><span><b>VestiIA</b><small>Viste tu mejor versión</small></span></a><span>© 2026 VestiIA · Proyecto demostrativo de probador virtual.</span><a href="#inicio">Volver arriba ↑</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>
